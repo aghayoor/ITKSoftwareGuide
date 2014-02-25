@@ -46,7 +46,14 @@ measure forms the quantitative criterion to be optimized by the
 \emph{optimizer} over the search space defined by the parameters of the
 \emph{transform}.
 
-These various ITK registration components will be described in later
+ITKv4 registration framework provides more flexibility to the above traditional
+registration concept. In this new framework, the specifications of the registration
+output image (origin, size, spacing, direction) can be completely different than
+the those of the fixed image. It means that the registration computations can happen
+in a physical space different than the fixed image space. This new component of the
+registration framework is called \emph{virtual} image.
+
+These various ITKv4 registration components will be described in later
 sections.  First, we begin with some simple registration examples.
 
 \section{"Hello World" Registration}
@@ -205,7 +212,7 @@ The concept of Mutual Information is derived from Information Theory and its
 application to image registration has been proposed in different forms by
 different groups \cite{Collignon1995,Maes97,Viola1997}, a more detailed review
 can be found in \cite{Hajnal2001,Pluim2003}. The Insight Toolkit currently
-provides five different implementations of Mutual Information metrics (see
+provides two different implementations of Mutual Information metrics (see
 section \ref{sec:Metrics} for details). The following examples illustrate the
 practical use of some of these metrics.
 
@@ -317,25 +324,17 @@ The spatial mapping determined at the coarse level is then used to initialize
 registration at the next finer scale. This process is repeated until it
 reaches the finest possible scale. This coarse-to-fine strategy greatly
 improve the registration success rate and also increases robustness
-by eliminating local optima at coarser scales.
+by eliminating local optima at coarser scales. The robustness can be improved
+even more by smoothing the images at coarse scales.
 
-The Insight Toolkit offers a multi-resolution registration framework that is
-directly compatible with all the registration framework components. The
-multi-resolution registration framework has two additional components: a pair
-of \emph{image pyramids} that are used to down-sample the fixed and moving
-images as illustrated in Figure \ref{fig:MultiResRegistrationComponents}.
-The pyramids smooth and subsample the images according to user-defined
-scheduling of shrink factors.
+In all previous examples we have run single level registration processes. However,
+ITKv4 registration framework is structured to provide a multi-resolution registration
+method. For this purpose we only need to define the number of levels as well as the
+resolution and smoothness of the input images at each level. The registration filter
+smoothes and subsamples the images according to user-defined \emph{ShrinkFactor} and
+\emph{SmoothingSigma} vectors.
 
-\begin{figure}
-\center
-\includegraphics[width=0.8\textwidth]{MultiResRegistrationComponents.eps}
-\itkcaption[Multi-Resolution Registration Components]{Components of the
-multi-resolution registration framework.}
-\label{fig:MultiResRegistrationComponents}
-\end{figure}
-
-We now present the main capabilities of the multi-resolution framework by
+We now present the multi-resolutionary capabilities of the framework by
 way of an example.
 
 \subsection{Fundamentals}
