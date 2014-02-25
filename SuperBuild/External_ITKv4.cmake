@@ -102,8 +102,10 @@ if(NOT ( DEFINED "${extProjName}_DIR" OR ( DEFINED "USE_SYSTEM_${extProjName}" A
       ${${proj}_FFTWD_ARGS}
     )
   ### --- End Project specific additions
-  set(${proj}_REPOSITORY ${git_protocol}://itk.org/ITK.git)
-  set(${proj}_GIT_TAG v4.5.0)
+  #set(${proj}_REPOSITORY ${git_protocol}://itk.org/ITK.git)
+  #set(${proj}_GIT_TAG v4.5.0)
+  set(${proj}_REPOSITORY https://github.com/aghayoor/ITK.git)
+  set(${proj}_GIT_TAG 573526e242c0a62c6639ce279add5075e4991f89)
 
   ExternalProject_Add(${proj}
     GIT_REPOSITORY ${${proj}_REPOSITORY}
