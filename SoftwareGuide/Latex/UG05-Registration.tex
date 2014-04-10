@@ -47,7 +47,14 @@ measure forms the quantitative criterion to be optimized by the
 \emph{optimizer} over the search space defined by the parameters of the
 \emph{transform}.
 
-These various ITK registration components will be described in later
+ITKv4 registration framework provides more flexibility to the above traditional
+registration concept. In this new framework, the specifications of the registration
+output image (origin, size, spacing, direction) can be completely different than
+the those of the fixed image. It means that the registration computations can happen
+in a physical space different than the fixed image space. This new component of the
+registration framework is called \emph{virtual} image.
+
+These various ITKv4 registration components will be described in later
 sections.  First, we begin with some simple registration examples.
 
 \section{"Hello World" Registration}
