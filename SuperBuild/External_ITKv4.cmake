@@ -105,7 +105,7 @@ if(NOT ( DEFINED "${extProjName}_DIR" OR ( DEFINED "USE_SYSTEM_${extProjName}" A
   #set(${proj}_REPOSITORY ${git_protocol}://itk.org/ITK.git)
   #set(${proj}_GIT_TAG v4.5.0)
   set(${proj}_REPOSITORY https://github.com/aghayoor/ITK.git)
-  set(${proj}_GIT_TAG 573526e242c0a62c6639ce279add5075e4991f89)
+  set(${proj}_GIT_TAG 7b526e330f6008d6961745c2431ea1560d47d342)
 
   ExternalProject_Add(${proj}
     GIT_REPOSITORY ${${proj}_REPOSITORY}
