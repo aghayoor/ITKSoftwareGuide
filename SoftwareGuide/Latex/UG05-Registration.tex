@@ -325,25 +325,17 @@ The spatial mapping determined at the coarse level is then used to initialize
 registration at the next finer scale. This process is repeated until it
 reaches the finest possible scale. This coarse-to-fine strategy greatly
 improve the registration success rate and also increases robustness
-by eliminating local optima at coarser scales.
+by eliminating local optima at coarser scales. The robustness can be improved
+even more by smoothing the images at coarse scales.
 
-The Insight Toolkit offers a multi-resolution registration framework that is
-directly compatible with all the registration framework components. The
-multi-resolution registration framework has two additional components: a pair
-of \emph{image pyramids} that are used to down-sample the fixed and moving
-images as illustrated in Figure \ref{fig:MultiResRegistrationComponents}.
-The pyramids smooth and subsample the images according to user-defined
-scheduling of shrink factors.
+In all previous examples we have run single level registration processes; however,
+ITKv4 registration framework is structured to provide a multi-resolution registration
+method. For this purpose we only need to define the number of levels as well as the
+resolution and smoothness of the input images at each level. The registration filter
+smoothes and subsamples the images according to user-defined \emph{ShrinkFactor} and
+\emph{SmoothingSigma} vectors.
 
-\begin{figure}
-\center
-\includegraphics[width=0.8\textwidth]{MultiResRegistrationComponents.eps}
-\itkcaption[Multi-Resolution Registration Components]{Components of the
-multi-resolution registration framework.}
-\label{fig:MultiResRegistrationComponents}
-\end{figure}
-
-We now present the main capabilities of the multi-resolution framework by
+We now present the multi-resolutionay capabilities of the framework by
 way of an example.
 
 \subsection{Fundamentals}
