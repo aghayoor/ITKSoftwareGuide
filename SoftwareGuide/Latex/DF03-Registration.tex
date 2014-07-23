@@ -20,20 +20,20 @@ application.
 
 
 \section{Registration Framework}
-The components of the registration framework and their interconnections are
-shown in Figure \ref{fig:RegistrationComponents}. The basic input data to the
-registration process are two images: one is defined as the \emph{fixed} image
-$f(\bf{X})$ and the other as the \emph{moving} image $m(\bf{X})$. Where
-$\bf{X}$ represents a position in N-dimensional space. Registration is treated
-as an optimization problem with the goal of finding the spatial mapping that
-will bring the moving image into alignment with the fixed image.
+Let's begin with a simplified typical registration framework that its components
+and their interconnections are shown in Figure \ref{fig:RegistrationComponents}.
+The basic input data to the registration process are two images: one is defined
+as the \emph{fixed} image $f(\bf{X})$ and the other as the \emph{moving} image
+$m(\bf{X})$. Where $\bf{X}$ represents a position in N-dimensional space.
+Registration is treated as an optimization problem with the goal of finding the
+spatial mapping that will bring the moving image into alignment with the fixed image.
 
 \begin{figure}
 \center
 \includegraphics[width=0.8\textwidth]{RegistrationComponentsDiagram.eps}
-\itkcaption[Registration Framework Components]{The basic components of the
-registration framework are two input images, a transform, a metric, an
-interpolator and an optimizer.}
+\itkcaption[A Typical Registration Framework Components]{The basic components
+of a typical registration framework are two input images, a transform, a
+metric, an interpolator and an optimizer.}
 \label{fig:RegistrationComponents}
 \end{figure}
 
@@ -50,11 +50,39 @@ ITKv4 registration framework provides more flexibility to the above traditional
 registration concept. In this new framework, the specifications of the registration
 output image (origin, size, spacing, direction) can be completely different than
 the those of the fixed image. It means that the registration computations can happen
-in a physical space different than the fixed image space. This new component of the
-registration framework is called \emph{virtual} image.
+in a physical space completely different than the fixed image space. This
+\textbf{physical space} can be considered as a new component in the registration
+framework that is called \textbf{virtual image}; however, it actually can be
+considered as a physical points set.
 
-These various ITKv4 registration components will be described in later
-sections.  First, we begin with some simple registration examples.
+Various ITKv4 registration components are illustrated in Figure
+\ref{fig:ITKv4RegistrationComponents}. Boxes with dashed borders show
+\emph{data objects}, while those with solid borders show \emph{process objects}.
+
+\begin{figure}
+\center
+\includegraphics[width=0.8\textwidth]{ITKv4RegistrationComponentsDiagram.eps}
+\itkcaption[Registration Framework Components]{The basic components of the ITKv4
+registration framework.}
+\label{fig:ITKv4RegistrationComponents}
+\end{figure}
+
+Metric is the key component that controls most parts of the registration process
+since it handles fixed, moving and virtual images as well as fixed and moving
+transforms and interpolators.
+
+Fixed and moving transforms and interpolators are used by the metric to evaluate
+the intensity values of the fixed and moving images at each physical point of the
+virtual space. Those intensity values are then used by the metric cost function to
+evaluate its fitness value and derivatives, which are passed to the optimizer that
+asks the moving transform to update its parameters based on the outputs of the cost
+function. Since the moving transform is shared between metric and optimizer,
+the above process will be repeated till the convergence criteria are met.
+
+Later in section~\ref{sec: FeaturesOfTheRegistrationFramework} you will get a
+better understanding of the behind the scene processes of ITKv4 registration
+framework. First, we begin with some simple registration examples.
+
 
 \section{"Hello World" Registration}
 \label{sec:IntroductionImageRegistration}
