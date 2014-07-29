@@ -339,16 +339,17 @@ is first performed at a coarse scale where the images have fewer pixels.
 The spatial mapping determined at the coarse level is then used to initialize
 registration at the next finer scale. This process is repeated until it
 reaches the finest possible scale. This coarse-to-fine strategy greatly
-improve the registration success rate and also increases robustness
+improves the registration success rate and also increases robustness
 by eliminating local optima at coarser scales. The robustness can be improved
-even more by smoothing the images at coarse scales.
+even more by smoothing the images at the coarse scales.
 
-In all previous examples we have run single level registration processes. However,
-ITKv4 registration framework is structured to provide a multi-resolution registration
-method. For this purpose we only need to define the number of levels as well as the
-resolution and smoothness of the input images at each level. The registration filter
-smoothes and subsamples the images according to user-defined \emph{ShrinkFactor} and
-\emph{SmoothingSigma} vectors.
+In all previous examples we have run a single level registration process. However,
+one of the great benefits of the new registration framework in ITKv4 is the way
+that it is structured to provide a multi-resolution registration method.
+To use this feature we only need to define the number of levels as well as the
+resolution and smoothness of the input images at each level. Then the registration filter
+subsamples and smoothes the inupt images according to the user-defined \emph{ShrinkFactor}
+and \emph{SmoothingSigma} vectors.
 
 We now present the multi-resolutionary capabilities of the framework by
 way of an example.
