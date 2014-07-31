@@ -364,10 +364,11 @@ way of an example.
 In section \ref{sec:MultiResolutionRegistration} you noticed how user can tweak
 component settings between multi-resolution levels and how it can benefit the
 registration process since it gets us close to the optimal value before we need
-to do last adjustments in full resolution.
-Note that by this approach we can save large amounts of time when we aim to run
-a deformable registration process on a large dataset like a high-resolution 3D
-image, since we need to run much less iterations at the full resolution level.
+to do the last adjustments in full resolution.
+Note that by this approach we can save large amounts of time in most practical
+cases like when we aim to run a deformable registration process on a large dataset
+like a high-resolution 3D image, since we need to run much less iterations at the
+full resolution level.
 
 Another possible scheme is to use a simple rigid transform for the initial coarse
 registration and upgrade to an affine transform at the finer level and finally
