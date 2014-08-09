@@ -294,3 +294,15 @@ In particular, it's meant to be used with \doxygen{DisplacementFieldTransform}
 and derived classes.
 
 
+\subsection{ANTS neighborhood correlation metric}
+\index{itk::ANTS\-Neighborhood\-Correlation\-Image\-To\-Image\-Metricv4}
+
+The \doxygen{ANTSNeighborhoodCorrelationImageToImageMetricv4} metric computes
+normalized cross correlation using a small neighborhood for each voxel between
+two images, with speed optimizations for dense registration.
+
+Around each voxel, the neighborhood is defined as a N-Dimensional
+rectangle centered at the voxel. The size of the rectangle is 2*radius+1.
+normalized correlation between neighborhoods of fixed image and moving
+image are averaged over the whole image as the final metric.
+A radius less than 2 can be unstable. 2 is the default.
