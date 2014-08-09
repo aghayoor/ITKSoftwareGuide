@@ -273,100 +273,24 @@ information, $I(A,B)$ and the joint entropy $H(A,B)$ are computed as mentioned
 in \ref{sec:MutualInformationMetric}. Details of the implementation may be found in
 the \cite{Hajnal2001}.
 
-\subsection{Mean Squares Histogram}
-\index{itk::Mean\-Squares\-Histogram\-Image\-To\-Image\-Metric}
+\subsection{Demons metric}
+\index{itk::Demons\-Image\-To\-Image\-Metricv4}
 
-The \doxygen{MeanSquaresHistogramImageToImageMetric} is an alternative
-implementation of the Mean Squares Metric. In this implementation the joint
-histogram of the fixed and the mapped moving image is built first. The user
-selects the number of bins to use in this joint histogram. Once the joint
-histogram is computed, the bins are visited with an iterator. Given that each
-bin is associated to a pair of intensities of the form: \{fixed intensity,
-moving intensity\}, along with the number of pixels pairs in the images that
-fell in this bin, it is then possible to compute the sum of square distances
-between the intensities of both images at the quantization levels defined by
-the joint histogram bins.
+The implementation of the \doxygen{DemonsImageToImageMetricv4} metric is taken from
+\doxygen{DemonsRegistrationFunction}.
 
-This metric can be represented with
-Equation~\ref{eqn:MeanSquaresHistogramImageToImageMetric}
+The metric derivative can be calculated using image derivatives
+either from the fixed or moving images. The default is to use fixed-image
+gradients. See ObjectToObjectMetric::SetGradientSource to change
+this behavior.
 
-\begin{equation}
-\label{eqn:MeanSquaresHistogramImageToImageMetric}
-MSH = \sum_f \sum_m { H(f,m) { \left( f - m \right) } ^ 2 }
-\end{equation}
+an intensity threshold is used, below which image pixels are considered
+equal for the purpose of derivative calculation. The threshold can be
+changed by calling \code{SetIntensityDifferenceThreshold}.
 
-where $H(f,m)$ is the count on the joint histogram bin identified with fixed image
-intensity $f$ and moving image intensity $m$.
-
-
-\subsection{Correlation Coefficient Histogram}
-\index{itk::Correlation\-Coefficient\-Histogram\-Image\-To\-Image\-Metric}
-
-The \doxygen{CorrelationCoefficientHistogramImageToImageMetric} computes the
-cross correlation coefficient between the intensities in the fixed image and
-the intensities on the mapped moving image. This metric is intended to be used
-in images of the same modality where the relationship between the intensities
-of the fixed image and the intensities on the moving images is given by a
-linear equation.
-
-The correlation coefficient is computed from the Joint histogram as
-
-\begin{equation}
-\label{eqn:CorrelationCoefficientHistogramImageToImageMetric}
-CC = \frac{ \sum_f \sum_m { \
-            H(f,m) \left( f \cdot m - \
-            \overline{f} \cdot \overline{m} \right)  } }{ \
-            \sum_f { H(f) \left( (f - \overline{f})^2 \right) } \cdot \
-            \sum_m { H(m) \left( (m - \overline{m})^2 \right) } }
-\end{equation}
-
-Where $H(f,m)$ is the joint histogram count for the bin identified with the
-fixed image intensity $f$ and the moving image intensity $m$. The values
-$\overline{f}$ and $\overline{m}$ are the mean values of the fixed and moving
-images respectively.  $H(f)$ and $H(m)$ are the histogram counts of the fixed
-and moving images respectively. The optimal value of the correlation
-coefficient is $1$, which would indicate a perfect straight line in the
-histogram.
-
-
-\subsection{Cardinality Match Metric}
-\index{itk::Match\-Cardinality\-Image\-To\-Image\-Metric}
-The \doxygen{MatchCardinalityImageToImageMetric} computes cardinality of the
-set of pixels that match exactly between the moving and fixed images. In other
-words, it computes the number of pixel matches and mismatches between the two
-images. The match is designed for label maps. All pixel mismatches are
-considered equal whether they are between label 1 and label 2 or between label
-1 and label 500. In other words, the magnitude of an individual label mismatch
-is not relevant, or the occurrence of a label mismatch is important.
-
-The spatial correspondence between the fixed and moving images is established using
-a \doxygen{Transform} using the \code{SetTransform()} method and an interpolator
-using \code{SetInterpolator()}. Given that we are matching pixels with labels,
-it is advisable to use Nearest Neighbor interpolation.
-
-\subsection{Kappa Statistics Metric}
-\index{itk::Kappa\-Statistic\-Image\-To\-Image\-Metric}
-The \doxygen{KappaStatisticImageToImageMetric} computes spatial intersection of
-two binary images. The metric here is designed for matching pixels in two images
-with the same exact value, which may be set using \code{SetForegroundValue()}.
-Given two images $A$ and $B$, the $\kappa$ coefficient is computed as
-
-\begin{equation}
-\kappa = \frac{|A| \cap |B|}{|A| + |B|}
-\end{equation}
-
-where $|A|$ is the number of foreground pixels in image $A$.  This computes the
-fraction of area in the two images that is common to both the images. In the
-computation of the metric, only foreground pixels are considered.
-
-\subsection{Gradient Difference Metric}
-\index{it::Gradient\-Difference\-Image\-To\-Image\-Metric}
-
-This \doxygen{GradientDifferenceImageToImageMetric} metric evaluates the
-difference in the derivatives of the moving and fixed images. The derivatives
-are passed through a function $\frac{1}{1+x}$ and then they are added. The
-purpose of this metric is to focus the registration on the edges of structures
-in the images.  In this way the borders exert larger influence on the result
-of the registration than do the inside of the homogeneous regions on the image.
+Note that this metric supports only moving transforms with local support and
+with a number of local parameters that matches the moving image dimension.
+In particular, it's meant to be used with \doxygen{DisplacementFieldTransform}
+and derived classes.
 
 
