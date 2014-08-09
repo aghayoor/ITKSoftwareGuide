@@ -150,43 +150,6 @@ imaging modality.  The metric is insensitive to multiplicative factors between
 the two images.  This metric produces a cost function with sharp peaks and well
 defined minima.  On the other hand, it has a relatively small capture radius.
 
-\subsection{Mean Reciprocal Square Differences}
-\label{sec:MeanReciprocalSquareDifferenceMetric}
-\index{itk::Mean\-Reciprocal\-Square\-Difference\-Image\-To\-Image\-Metric}
-
-The \doxygen{MeanReciprocalSquareDifferenceImageToImageMetric} computes
-pixel-wise differences and adds them after passing them through a bell-shaped
-function $\frac{1}{1+x^2}$:
-
-\begin{equation}
-PI(A,B) =  \sum_{i=1}^N \frac{ 1 }{ 1 + \frac{ \left( A_i - B_i \right) ^ 2}{ \lambda^2 }  }
-\end{equation}
-\begin{center}
-$A_i$ is the i-th pixel of Image A \\
-$B_i$ is the i-th pixel of Image B \\
-$N$ is the number of pixels considered \\
-$\lambda$ controls the capture radius
-\end{center}
-
-The optimal value is $N$ and poor matches results in small measure values.
-The characteristics of this metric have been studied by Penney and Holden
-\cite{Holden1999}\cite{Penney1998}
-
-This image metric has the advantage of producing poor values when few pixels
-are considered.  This makes it consistent when its computation is subject to
-the size of the overlap region between the images. The capture radius of the
-metric can be regulated with the parameter $\lambda$.  The profile of this
-metric is very peaky. The sharp peaks of the metric help to measure spatial
-misalignment with high precision. Note that the notion of capture radius is
-used here in terms of the intensity domain, not the spatial domain. In that
-regard, $\lambda$ should be given in intensity units and be associated with
-the differences in intensity that will make drop the metric by $50\%$.
-
-The metric is limited to images of the same image modality.  The
-fact that its derivative is large at the central peak is a problem for some
-optimizers that rely on the derivative to decrease as the extrema are
-reached.  This metric is also sensitive to linear changes in intensity.
-
 
 \subsection{Mutual Information Metric}
 \label{sec:MutualInformationMetric}
