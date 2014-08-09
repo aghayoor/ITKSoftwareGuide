@@ -4,9 +4,9 @@
 %
 %
 
-\index{itk::Image\-To\-Image\-Metric}
+\index{itk::Image\-To\-Image\-Metricv4}
 
-In ITK, \doxygen{ImageToImageMetric} objects quantitatively measure how well
+In ITK, \doxygen{ImageToImageMetricv4} objects quantitatively measure how well
 the transformed moving image fits the fixed image by comparing the gray-scale
 intensity of the images. These metrics are very flexible and can work with any
 transform or interpolation method and do not require reduction of the
@@ -21,19 +21,23 @@ obtained from the same imaging modality, while others can handle
 inter-modality comparisons.
 Unfortunately, there are no clear-cut rules as to how to choose a metric.
 
-\index{itk::Image\-To\-Image\-Metric!GetValue()}
-\index{itk::Image\-To\-Image\-Metric!GetDerivatives()}
-\index{itk::Image\-To\-Image\-Metric!GetValueAndDerivatives()}
+\index{itk::Image\-To\-Image\-Metricv4!GetValue()}
+\index{itk::Image\-To\-Image\-Metricv4!GetDerivatives()}
+\index{itk::Image\-To\-Image\-Metricv4!GetValueAndDerivatives()}
 
-The basic inputs to a metric are: the fixed and moving images, a transform and
-an interpolator. The method \code{GetValue()} can be used to evaluate the
-quantitative criterion at the transform parameters specified in the argument.
-Typically, the metric samples points within a defined region of the fixed
-image.  For each point, the corresponding moving image position is computed
-using the transform with the specified parameters, then the interpolator is
-used to compute the moving image intensity at the mapped position. Details on
-this mapping are illustrated in Figures \ref{fig:ImageOverlapIterator} and
-\ref{fig:ImageOverlapInterpolator}.
+The matching Metric class controls most parts of the registration process
+since it handles fixed, moving and virtual images as well as fixed and moving
+transforms and interpolators.  The method \code{GetValue()} can be used to
+evaluate the quantitative criterion at the transform parameters specified in
+the argument.  Typically, the metric samples points within a defined region
+of the virtual lattice.  For each point, the corresponding fixed and moving
+image positions are computed using the fixed initial transform and the moving
+transform with the specified parameters. Then, the fixed and moving interpolators
+are used to compute the fixed and moving images intensities at the mapped
+positions. Details on this mapping are illustrated in Figures
+\ref{fig:ImageOverlapIterator} and \ref{fig:ImageOverlapInterpolator} assuming
+that virtual lattice is the same as the fixed image lattice, which is usually the
+case in practice.
 
 The metrics also support region based evaluation. The \code{SetFixedImageMask()} and
 \code{SetMovingImageMask()} methods may be used to restrict evaluation of the metric
@@ -45,7 +49,18 @@ methods \code{GetDerivatives()} and \code{GetValueAndDerivatives()} can be
 used to obtain the gradient information.
 
 
-The following is the list of metrics currently available in ITK:
+The following is the list of metrics currently available in ITKv4 registration framework:
+\begin{itemize}
+\item Mean squares\\ \doxygen{MeanSquaresImageToImageMetricv4}
+\item Correlation \\ \doxygen{CorrelationImageToImageMetricv4}
+\item Mutual information by Mattes \\ \doxygen{MattesMutualInformationImageToImageMetricv4}
+\item Joint histogram mutual information \\ \doxygen{JointHistogramMutualInformationHistogramImageToImageMetricv4}
+\item Demons metric \\ \doxygen{DemonsImageToImageMetricv4}
+\item ANTS neighborhood correlaiton metric \\ \doxygen{ANTSNeighborhoodCorrelationImageToImageMetricv4}
+\end{itemize}
+
+Also, in the case that you are still interested to use the legacy ITK registration framework,
+the following is the list of metrics currently available in ITKv3:
 \begin{itemize}
 \item Mean squares\\ \doxygen{MeanSquaresImageToImageMetric}
 \item Normalized correlation \\ \doxygen{NormalizedCorrelationImageToImageMetric}
@@ -61,7 +76,9 @@ The following is the list of metrics currently available in ITK:
 \item Gradient Difference metric \\ \doxygen{GradientDifferenceImageToImageMetric}
 \end{itemize}
 
-In the following sections, we describe each metric type in detail.
+In the following sections, we describe the ITKv4 metric types in detail.
+You can check ITK documentations in doxygen for more describtions about
+ITKv3 metric classes.
 For ease of notation, we will refer to the fixed image $f(\bf{X})$
 and transformed moving image $(m \circ T(\bf{X}))$ as images $A$ and $B$.
 
