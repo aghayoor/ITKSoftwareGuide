@@ -154,7 +154,7 @@ defined minima.  On the other hand, it has a relatively small capture radius.
 \subsection{Mutual Information Metric}
 \label{sec:MutualInformationMetric}
 
-The \doxygen{MutualInformationImageToImageMetric} computes the mutual
+The \doxygen{MattesMutualInformationImageToImageMetricv4} computes the mutual
 information between image $A$ and image $B$.  Mutual information (MI)
 measures how much information one random variable (image intensity in one
 image) tells about another random variable (image intensity in the other
@@ -228,60 +228,25 @@ Choosing the optimal smoothing parameter is a difficult research problem and
 beyond the scope of this software guide.  Typically, the optimal value of the
 smoothing parameter will depend on the data and the number of samples used.
 
-\subsubsection{Viola and Wells Implementation}
-
-The Insight Toolkit has multiple implementations of the mutual information
-metric. One of the most commonly used is
-\doxygen{MutualInformationImageToImageMetric} and follows the method specified
-by Viola and Wells in \cite{Viola1997}.
-
-\index{itk::Mutual\-Information\-Image\-To\-Image\-Metric}
-
-In this implementation, two separate intensity samples $S$ and $R$ are drawn
-from the image: the first to compute the density, and the second to approximate
-the entropy as a sample mean:
-\begin{equation}
-H(A) = \frac{1}{N} \sum_{r_j \in R} \log P^{*}(r_j).
-\end{equation}
-Gaussian density is used as a smoothing kernel, where the standard deviation
-$\sigma$ acts as the smoothing parameter.
-
-\index{itk::Mutual\-Information\-Image\-To\-Image\-Metric!SetNumberOfSpatialSamples()}
-
-The number of spatial samples used for computation is defined using
-the \code{SetNumberOfSpatialSamples()} method. Typical values range from 50 to 100.
-Note that computation involves an $N \times N$ loop and hence, the computation
-burden becomes very expensive when a large number of samples is used.
-
-\index{itk::Mutual\-Information\-Image\-To\-Image\-Metric!SetFixedImageStandardDeviation()}
-\index{itk::Mutual\-Information\-Image\-To\-Image\-Metric!SetMovingImageStandardDeviation()}
-The quality of the density estimates depends on the choice of the standard
-deviation of the Gaussian kernel. The optimal choice will depend on the
-content of the images.  In our experience with the toolkit, we have found
-that a standard deviation of 0.4 works well for images that have been
-normalized to have a mean of zero and standard deviation of 1.0. The standard
-deviation of the fixed image and moving image kernel can be set separately
-using methods
-\code{SetFixedImageStandardDeviation()} and \code{SetMovingImageStandardDeviation()}.
-
 \subsubsection{Mattes et al. Implementation}
-Another form of mutual information metric available in ITK follows the method
-specified by Mattes et al. in \cite{Mattes2001} and is implemented by the
-\doxygen{MattesMutualInformationImageToImageMetric} class.
+The implementation of mutual information metric available in ITKv4 follows
+the method specified by Mattes et al. in \cite{Mattes2001} and is implemented
+by the \doxygen{MattesMutualInformationImageToImageMetricv4} class.
 
-\index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metric}
+\index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metricv4}
 In this implementation, only one set of intensity samples is drawn from the
 image.  Using this set, the marginal and joint probability density function
 (PDF) is evaluated at discrete positions or bins uniformly spread within the
 dynamic range of the images. Entropy values are then computed by summing over
 the bins.
 
-\index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metric!SetNumberOfSpatialSamples()}
-\index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metric!SetNumberOfHistogramBins()}
+\index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metricv4!SetNumberOfHistogramBins()}
 
-The number of spatial samples used is set using method
-\code{SetNumberOfSpatialSamples()}. The number of bins used to compute
-the entropy values is set via \code{SetNumberOfHistogramBins()}.
+The number of spatial samples used is a ratio of the total number of samples
+and is set using method \code{SetMetricSamplingPercentage()} directly from
+the registration framework \doxygen{ImageRegistrationMethodv4}. Also, The number
+of bins used to compute the entropy values is set in the metric class
+via \code{SetNumberOfHistogramBins()} method.
 
 Since the fixed image PDF does not contribute to the metric derivatives, it
 does not need to be smooth. Hence, a zero order (boxcar) B-spline kernel is
