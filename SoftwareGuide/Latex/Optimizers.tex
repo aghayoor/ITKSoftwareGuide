@@ -11,11 +11,11 @@ optimizers hierarchy.}
 \label{fig:OptimizersHierarchy}
 \end{figure}
 
-Optimization algorithms are encapsulated as \doxygen{Optimizer} objects
-within ITK. Optimizers are generic and can be used for applications other than
-registration.  Within the registration framework, subclasses of
-\doxygen{SingleValuedNonLinearOptimizer} are used to optimize the metric
-criterion with respect to the transform parameters.
+Optimization algorithms are encapsulated as \doxygen{ObjectToObjectOptimizer}
+objects within ITKv4. Optimizers are generic and can be used for applications
+other than registration. Within the registration framework, subclasses of
+\doxygen{SingleValuedNonLinearVnlOptimizerv4} are implemented as a wrap
+around already implemented vnl classes.
 
 \index{itk::Optimizer!SetInitialPosition()}
 \index{itk::Optimizer!StartOptimization()}
